@@ -1,0 +1,17 @@
+{
+  "name": "k6-web-runner",
+  "version": "1.0.0",
+  "description": "Interface web para executar testes de carga com k6, com streaming de terminal em tempo real (SSE)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["k6", "load-testing", "performance", "sse", "qa", "sdet"],
+  "author": "Moisés Chiaretto",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.1"
+  }
+}

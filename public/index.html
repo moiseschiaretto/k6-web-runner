@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K6 Web Runner</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>⚡ K6 Web Runner</h1>
+      <p class="subtitle">Interface web para testes de carga com k6 — configure, rode e acompanhe em tempo real, sem tocar no terminal.</p>
+    </header>
+
+    <div class="grid">
+      <div class="panel">
+        <h2>Configuração</h2>
+
+        <label>Endpoints (um por linha — comando <code>curl</code> completo, ou <code>METHOD URL</code>)</label>
+        <textarea id="urls" rows="6" placeholder="GET https://dummyjson.com/products
+GET https://dummyjson.com/products/1
+curl -X POST https://dummyjson.com/auth/login -H &quot;Content-Type: application/json&quot; -d '{&quot;username&quot;:&quot;emilys&quot;,&quot;password&quot;:&quot;emilyspass&quot;}'"></textarea>
+
+        <div class="row">
+          <div>
+            <label>VUs (usuários virtuais)</label>
+            <input id="vus" type="number" value="10" min="1">
+          </div>
+          <div>
+            <label>Ramp-up</label>
+            <input id="rampUp" type="text" value="10s">
+          </div>
+          <div>
+            <label>Duração</label>
+            <input id="duration" type="text" value="30s">
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Validar status</label>
+            <select id="statusValidation">
+              <option>SEM STATUS</option>
+              <option>200</option>
+              <option>201</option>
+              <option>204</option>
+              <option>400</option>
+              <option>401</option>
+              <option>404</option>
+            </select>
+          </div>
+          <div>
+            <label>Limite de tempo de resposta (ms)</label>
+            <input id="responseTimeLimit" type="number" value="1000">
+          </div>
+          <div>
+            <label>Token Bearer (opcional)</label>
+            <input id="authToken" type="text" placeholder="cole aqui, se a API exigir">
+          </div>
+        </div>
+
+        <label class="checkbox">
+          <input id="peak" type="checkbox"> Teste de pico (sobe rápido, mantém, cai — bom pra achar o ponto de ruptura)
+        </label>
+
+        <button id="runBtn">▶ Rodar teste de carga</button>
+      </div>
+
+      <div class="panel">
+        <h2>Terminal (ao vivo)</h2>
+        <pre id="terminal" class="terminal">Aguardando execução...</pre>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Resumo por endpoint</h2>
+      <table id="summaryTable">
+        <thead>
+          <tr><th>Endpoint</th><th>Requisições</th><th>Média (ms)</th><th>Min</th><th>Max</th><th>Erros</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

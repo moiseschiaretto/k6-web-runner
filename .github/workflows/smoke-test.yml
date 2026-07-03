@@ -1,0 +1,48 @@
+name: K6 Web Runner — Smoke Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências Node
+        run: npm install
+
+      - name: Instalar k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install -y k6
+
+      - name: Subir o servidor em background
+        run: nohup node server.js > server.log 2>&1 &
+
+      - name: Aguardar servidor subir
+        run: sleep 3
+
+      - name: Smoke test — dispara um teste de carga curto contra a DummyJSON
+        run: |
+          curl -N -X POST http://localhost:3000/run-test \
+            -H "Content-Type: application/json" \
+            -d '{"urls":["GET https://dummyjson.com/products/1"],"vus":2,"rampUp":"2s","duration":"3s"}' \
+            --max-time 20 | tee run-output.log
+
+      - name: Verificar se o k6 executou de fato
+        run: grep -q "RESULT:" run-output.log
+
+      - name: Mostrar log do servidor em caso de falha
+        if: failure()
+        run: cat server.log
