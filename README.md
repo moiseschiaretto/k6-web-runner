@@ -2,7 +2,7 @@
 
 Interface web para executar testes de carga com **k6**, com streaming de terminal em tempo real (SSE) — configure VUs, ramp-up, duração e validação de status, e acompanhe a execução ao vivo no navegador, sem tocar em linha de comando.
 
-![Execução com sucesso — 17.547 requisições, 0 erros](docs/screenshot-execucao-com-sucesso.png)
+![Execução com sucesso — 17.547 requisições, 0 erros](docs/screenshots/screenshot-execucao-com-sucesso.png)
 *Execução real: 10 VUs por 40s contra a DummyJSON, 17.547 requisições, 0% de erro, tabela de resumo preenchida.*
 
 ## 🚀 Como Começar
@@ -52,6 +52,8 @@ npm install
 npm start
 ```
 
+![Servidor iniciado no terminal](docs/screenshots/servidor-iniciado-terminal.png)
+
 Acesse **http://localhost:3000** no navegador (não confunda com a URL da API que você vai testar — `localhost:3000` é a interface do próprio projeto, rodando na sua máquina).
 
 ---
@@ -94,6 +96,18 @@ Error: k6 não encontrado. Instale com: https://grafana.com/docs/k6/latest/set-u
 ```
 Isso confirma que o processo Node não está enxergando o `k6` no PATH da sessão em que o `npm start` foi executado. Resolva o PATH (seção acima) **na mesma janela de terminal** onde você vai rodar `npm start` — se você ajustou o PATH numa janela e abriu outra pra rodar o projeto, o ajuste temporário não vale lá.
 
+### Teste rápido para confirmar que está tudo funcionando
+
+Com o servidor rodando em `http://localhost:3000`, cole isso no campo **Endpoints** da interface e clique em **▶ Rodar teste de carga**:
+
+```
+GET https://dummyjson.com/products/1
+```
+
+![Interface com exemplo rodando contra a DummyJSON](docs/screenshots/interface-exemplo-dummyjson.png)
+
+Se aparecer a tabela **Resumo por endpoint** preenchida com requisições, tempo médio e 0 erros, está tudo funcionando corretamente.
+
 ---
 
 ## Como usar a interface
@@ -134,7 +148,10 @@ src/
 public/
   index.html, style.css, script.js   # UI: formulário de configuração + terminal ao vivo + tabela de resumo
 docs/
-  screenshot-execucao-com-sucesso.png   # captura de tela de uma execução real
+  screenshots/
+    screenshot-execucao-com-sucesso.png   # execução em maior escala (17.547 requisições)
+    servidor-iniciado-terminal.png         # npm start rodando com sucesso
+    interface-exemplo-dummyjson.png        # interface completa com exemplo rodando
 ```
 
 ## Detalhe técnico: por que a tabela de resumo precisou de um parser específico
