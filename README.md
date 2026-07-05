@@ -56,6 +56,16 @@ npm start
 
 Acesse **http://localhost:3000** no navegador (não confunda com a URL da API que você vai testar — `localhost:3000` é a interface do próprio projeto, rodando na sua máquina).
 
+**Teste rápido:** cole isso no campo **Endpoints** da interface e clique em **▶ Rodar teste de carga**:
+
+```
+GET https://dummyjson.com/products/1
+```
+
+![Interface com exemplo rodando contra a DummyJSON](docs/screenshots/interface-exemplo-dummyjson.png)
+
+Se aparecer a tabela **Resumo por endpoint** preenchida com requisições, tempo médio e 0 erros, está tudo funcionando corretamente.
+
 ---
 
 ## 🔧 Solução de problemas (Windows)
@@ -98,15 +108,7 @@ Isso confirma que o processo Node não está enxergando o `k6` no PATH da sessã
 
 ### Teste rápido para confirmar que está tudo funcionando
 
-Com o servidor rodando em `http://localhost:3000`, cole isso no campo **Endpoints** da interface e clique em **▶ Rodar teste de carga**:
-
-```
-GET https://dummyjson.com/products/1
-```
-
-![Interface com exemplo rodando contra a DummyJSON](docs/screenshots/interface-exemplo-dummyjson.png)
-
-Se aparecer a tabela **Resumo por endpoint** preenchida com requisições, tempo médio e 0 erros, está tudo funcionando corretamente.
+Veja o exemplo com `GET https://dummyjson.com/products/1` logo no início deste README, na seção "Como Começar" — é o mesmo teste que confirma que o k6 e o servidor estão funcionando corretamente.
 
 ---
 
